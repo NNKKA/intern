@@ -8,18 +8,13 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
-/// @title The Dead Army Skeleton Klub
-/// @author Burn0ut#8868 dev@notableart.xyz
-/// @notice https://www.thedeadarmyskeletonklub.army/ https://twitter.com/The_DASK
-contract RAW is ERC721A, Ownable {
+
+contract kkk is ERC721A, Ownable {
     using SafeMath for uint256;
     using Strings for uint256;
 
     uint256 public constant MAX_TOKENS = 7777;
     uint256 public constant MAX_PER_MINT = 3;
-    address public constant w1 = 0x326D4FF1fd7Bd2a6741192Aba6176300D3f4cA71;
-    address public constant w2 = 0x5AC3163754fc54FeA1541C7Fe1d707B5f7C4De84;
-    address public constant w3 = 0x167ff7402F1B545A49a117Fd23a0360afE8761C1;
 
 
     uint256 public price = 0.01 ether;
@@ -30,9 +25,9 @@ contract RAW is ERC721A, Ownable {
     uint256 public presaleMaxPerWallet = 1;
 
     string public baseURI = "";
-    bytes32 public merkleRoot = 0x1ec77273b979842b8d532d638dcdd667dc9d39a28d56a0eeac3d46e2505dd34f;
+    bytes32 public merkleRoot = ;
 
-    constructor() ERC721A("Red Astro Wars", "RAW", 20) {
+    constructor() ERC721A("NNK", "kkk", 20) {
     }
 
     function togglePresaleStarted() external onlyOwner {
@@ -67,7 +62,7 @@ contract RAW is ERC721A, Ownable {
             return super.tokenURI(tokenId);
         } else {
             return
-                string(abi.encodePacked("https://gateway.pinata.cloud/ipfs/QmQPrJkT8cX72rasGdoMnWq713DwTGniMxxPadjVzgxmbG/", tokenId.toString()));
+                string(abi.encodePacked("https://gateway.pinata.cloud/ipfs//", tokenId.toString()));
         }
     }
 
@@ -82,13 +77,13 @@ contract RAW is ERC721A, Ownable {
     /// @param merkleProof Merkle Tree proof
     /// @dev reverts if any of the presale preconditions aren't satisfied
     function mintPresale(uint256 tokens, bytes32[] calldata merkleProof) external payable {
-        require(presaleStarted, "RAW: Presale has not started");
-        require(MerkleProof.verify(merkleProof, merkleRoot, keccak256(abi.encodePacked(msg.sender))), "RAW: You are not eligible for the presale");
-        require(_presaleMints[_msgSender()] + tokens <= presaleMaxPerWallet, "RAW: Presale limit for this wallet reached");
-        require(tokens <= MAX_PER_MINT, "RAW: Cannot purchase this many tokens in a transaction");
-        require(totalSupply() + tokens <= MAX_TOKENS, "RAW: Minting would exceed max supply");
-        require(tokens > 0, "RAW: Must mint at least one token");
-        require(price * tokens == msg.value, "RAW: ETH amount is incorrect");
+        require(presaleStarted, "Presale has not started");
+        require(MerkleProof.verify(merkleProof, merkleRoot, keccak256(abi.encodePacked(msg.sender))), "You are not eligible for the presale");
+        require(_presaleMints[_msgSender()] + tokens <= presaleMaxPerWallet, "Presale limit for this wallet reached");
+        require(tokens <= MAX_PER_MINT, "Cannot purchase this many tokens in a transaction");
+        require(totalSupply() + tokens <= MAX_TOKENS, "Minting would exceed max supply");
+        require(tokens > 0, "Must mint at least one token");
+        require(price * tokens == msg.value, "ETH amount is incorrect");
 
         _safeMint(_msgSender(), tokens);
         _presaleMints[_msgSender()] += tokens;
@@ -98,11 +93,11 @@ contract RAW is ERC721A, Ownable {
     /// @param tokens number of tokens to mint
     /// @dev reverts if any of the public sale preconditions aren't satisfied
     function mint(uint256 tokens) external payable {
-        require(publicSaleStarted, "RAW: Public sale has not started");
-        require(tokens <= MAX_PER_MINT, "RAW: Cannot purchase this many tokens in a transaction");
-        require(totalSupply() + tokens <= MAX_TOKENS, "RAW: Minting would exceed max supply");
-        require(tokens > 0, "RAW: Must mint at least one token");
-        require(price * tokens == msg.value, "RAW: ETH amount is incorrect");
+        require(publicSaleStarted, "Public sale has not started");
+        require(tokens <= MAX_PER_MINT, "Cannot purchase this many tokens in a transaction");
+        require(totalSupply() + tokens <= MAX_TOKENS, "Minting would exceed max supply");
+        require(tokens > 0, "Must mint at least one token");
+        require(price * tokens == msg.value, "ETH amount is incorrect");
 
         _safeMint(_msgSender(), tokens);
     }
@@ -113,8 +108,8 @@ contract RAW is ERC721A, Ownable {
     /// @param tokens number of tokens to mint
     /// @dev reverts if any of the preconditions aren't satisfied
     function ownerMint(address to, uint256 tokens) external onlyOwner {
-        require(totalSupply() + tokens <= MAX_TOKENS, "RAW: Minting would exceed max supply");
-        require(tokens > 0, "RAW: Must mint at least one token");
+        require(totalSupply() + tokens <= MAX_TOKENS, "Minting would exceed max supply");
+        require(tokens > 0, "Must mint at least one token");
 
         _safeMint(to, tokens);
     }
@@ -122,7 +117,7 @@ contract RAW is ERC721A, Ownable {
     /// Distribute funds to wallets
     function withdrawAll() public onlyOwner {
         uint256 balance = address(this).balance;
-        require(balance > 0, "RAW: Insufficent balance");
+        require(balance > 0, "Insufficent balance");
         _widthdraw(w3, ((balance * 45) / 1000));
         _widthdraw(w2, ((balance * 45) / 1000));
         _widthdraw(w1, address(this).balance);
@@ -130,7 +125,7 @@ contract RAW is ERC721A, Ownable {
 
     function _widthdraw(address _address, uint256 _amount) private {
         (bool success, ) = _address.call{value: _amount}("");
-        require(success, "RAW: Failed to widthdraw Ether");
+        require(success, "Failed to widthdraw Ether");
     }
 
 }
