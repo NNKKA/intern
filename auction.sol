@@ -14,12 +14,7 @@ interface IERC721 {
     ) external;
 }
 
-/**
-@title Auction contract for selling NFTs.
-@author Naman Vyas
-@notice The contract should be deployed by the seller. All functions and state variables
-are kept public to promote transparency.
-*/
+
 contract Auction {
     /* State Variables */
 
